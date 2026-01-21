@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import { MenuSection } from "./components/MenuSection";
 
 // Always render fresh data (no prerendered cache) so deletions/edits show immediately.
 export const revalidate = 0;
@@ -18,6 +18,20 @@ async function getProducts() {
   }
 }
 
+async function getCategories() {
+  try {
+    const { prisma } = await import('@/lib/prisma')
+    const categories = await prisma.category.findMany({
+      where: { isActive: true },
+      orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }]
+    })
+    return categories
+  } catch (error) {
+    // Table may not exist yet until migration runs; keep homepage working.
+    return []
+  }
+}
+
 const specialties = [
   "Small-batch sweets crafted fresh all day",
   "Custom dessert boxes for events and gifting",
@@ -27,6 +41,7 @@ const specialties = [
 
 export default async function Home() {
   const products = await getProducts()
+  const categories = await getCategories()
   const featuredProducts = products.filter((p: any) => p.isFeatured).slice(0, 3)
   const displayProducts = featuredProducts.length > 0 ? featuredProducts : products.slice(0, 3)
   
@@ -76,7 +91,7 @@ export default async function Home() {
                 <span className="h-6 w-6 rounded-full bg-amber-100 p-1.5">
                   <span className="block h-full w-full animate-bounce rounded-full bg-amber-400" />
                 </span>
-                Baked fresh in small batches
+                Crafted fresh in small batches
               </div>
               <div className="flex items-center gap-2">
                 <span className="h-6 w-6 rounded-full bg-rose-100 p-1.5">
@@ -96,7 +111,7 @@ export default async function Home() {
                     <p className="text-xs font-medium uppercase tracking-[0.2em] text-rose-700">
                       Lynos Sweets
                     </p>
-                    <p className="text-sm text-stone-600">Cookie Flight · Today&apos;s Selection</p>
+                    <p className="text-sm text-stone-600">Today&apos;s Selection</p>
                   </div>
                   <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-rose-700 shadow-sm">
                     Limited batch
@@ -113,7 +128,7 @@ export default async function Home() {
                         {cookie.imageUrl ? (
                           <img src={cookie.imageUrl} alt={cookie.name} className="relative scale-110 opacity-80 transition-transform duration-500 group-hover:scale-125 w-full h-full object-cover" />
                         ) : (
-                          <div className="text-2xl">🍪</div>
+                          <div className="text-2xl">🍬</div>
                         )}
                       </div>
                       <p className="line-clamp-2 font-semibold text-[11px] text-stone-800">{cookie.name}</p>
@@ -140,51 +155,7 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Menu */}
-        <section id="menu" className="mt-20 space-y-6">
-          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <div>
-              <h2 className="text-2xl font-semibold text-stone-900 sm:text-3xl">Signature sweets highlights</h2>
-              <p className="mt-1 max-w-xl text-sm text-stone-600">
-                Swipe through some favourites from our sweets collection. Visit Lynos Sweets in person or get them curated in a
-                dessert box.
-              </p>
-            </div>
-            <p className="text-xs text-stone-500">
-              Prices in USD. Availability varies by day and season.
-            </p>
-          </div>
-          <div className="mt-4 grid gap-6 md:grid-cols-3">
-            {products.slice(0, 6).map((cookie: any, index: number) => (
-              <article
-                key={cookie.id || index}
-                className="group relative overflow-hidden rounded-3xl bg-white/80 p-5 shadow-lg shadow-rose-100/60 ring-1 ring-rose-100 transition hover:-translate-y-1.5 hover:shadow-xl hover:ring-rose-200"
-                style={{ animation: `floatUp 0.7s ease-out ${index * 0.08}s both` } as React.CSSProperties}
-              >
-                <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-rose-100/60 blur-2xl" />
-                <div className="relative flex items-center justify-between gap-4">
-                  <div>
-                    <h3 className="text-base font-semibold text-stone-900">{cookie.name}</h3>
-                    <p className="mt-1 text-sm text-stone-600">{cookie.description || ''}</p>
-                  </div>
-                  <span className="rounded-2xl bg-stone-900 px-3 py-2 text-xs font-semibold text-amber-200 shadow-md">
-                    ${cookie.price?.toFixed(2) || '0.00'}
-                  </span>
-                </div>
-                <div className="relative mt-4 flex items-center justify-between text-xs text-stone-500">
-                  <p>{cookie.category || 'Sweets'}</p>
-                  <p className="inline-flex items-center gap-1">
-                    Freshly baked
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-rose-500" />
-                  </p>
-                </div>
-              </article>
-            ))}
-            {products.length === 0 && (
-              <p className="col-span-3 text-center text-stone-500 py-8">No products available yet. Check back soon!</p>
-            )}
-          </div>
-        </section>
+        <MenuSection products={products as any} categories={categories as any} />
 
         {/* About */}
         <section id="about" className="mt-20 grid gap-10 md:grid-cols-[1.2fr_minmax(0,1fr)] md:items-start">

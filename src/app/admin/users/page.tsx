@@ -33,8 +33,13 @@ export default function UsersPage() {
   }, [])
 
   const checkAuth = async () => {
-    const res = await fetch('/api/auth/me')
-    if (!res.ok) router.push('/admin/login')
+    try {
+      const res = await fetch('/api/auth/me', { cache: 'no-store' })
+      if (res.status === 401 || res.status === 403) router.push('/admin/login')
+    } catch {
+      // Don't force logout on transient failures.
+      return
+    }
   }
 
   const fetchUsers = async () => {
@@ -136,6 +141,9 @@ export default function UsersPage() {
               </Link>
               <Link href="/admin" className="text-gray-600 hover:text-gray-900">
                 ← Back to Dashboard
+              </Link>
+              <Link href="/admin/categories" className="text-gray-600 hover:text-gray-900">
+                Categories
               </Link>
             </div>
           </div>

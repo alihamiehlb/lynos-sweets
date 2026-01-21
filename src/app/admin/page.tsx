@@ -35,14 +35,16 @@ export default function AdminDashboard() {
   const checkAuth = async () => {
     try {
       const res = await fetch('/api/auth/me')
-      if (!res.ok) {
+      if (res.status === 401 || res.status === 403) {
         router.push('/admin/login')
         return
       }
+      if (!res.ok) return
       const data = await res.json()
       setUser(data.user)
     } catch {
-      router.push('/admin/login')
+      // Don't force logout on transient failures (e.g. temporary DB issues).
+      return
     }
   }
 
@@ -108,6 +110,10 @@ export default function AdminDashboard() {
             <div className="text-sm text-gray-600 mb-1">Products</div>
             <div className="text-3xl font-bold text-pink-600">{stats?.totalProducts || 0}</div>
           </Link>
+          <Link href="/admin/categories" className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
+            <div className="text-sm text-gray-600 mb-1">Categories</div>
+            <div className="text-3xl font-bold text-purple-600">{'—'}</div>
+          </Link>
           <div className="bg-white rounded-xl shadow-md p-6">
             <div className="text-sm text-gray-600 mb-1">Total Sales</div>
             <div className="text-3xl font-bold text-purple-600">{stats?.totalSales || 0}</div>
@@ -157,11 +163,16 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Link href="/admin/products" className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all transform hover:scale-105">
             <div className="text-2xl mb-2">🍬</div>
             <h3 className="text-lg font-semibold mb-1">Manage Products</h3>
             <p className="text-sm text-gray-600">Add, edit, or delete Lynos Sweets products</p>
+          </Link>
+          <Link href="/admin/categories" className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all transform hover:scale-105">
+            <div className="text-2xl mb-2">🏷️</div>
+            <h3 className="text-lg font-semibold mb-1">Manage Categories</h3>
+            <p className="text-sm text-gray-600">Create categories like Drinks, Boxes, Specials</p>
           </Link>
           <Link href="/admin/users" className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all transform hover:scale-105">
             <div className="text-2xl mb-2">👥</div>

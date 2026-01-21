@@ -15,8 +15,15 @@ interface Product {
   isFeatured: boolean
 }
 
+interface Category {
+  id: number
+  name: string
+  slug: string
+}
+
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
@@ -34,11 +41,17 @@ export default function ProductsPage() {
   useEffect(() => {
     checkAuth()
     fetchProducts()
+    fetchCategories()
   }, [])
 
   const checkAuth = async () => {
-    const res = await fetch('/api/auth/me')
-    if (!res.ok) router.push('/admin/login')
+    try {
+      const res = await fetch('/api/auth/me', { cache: 'no-store' })
+      if (res.status === 401 || res.status === 403) router.push('/admin/login')
+    } catch {
+      // Don't force logout on transient failures.
+      return
+    }
   }
 
   const fetchProducts = async () => {
@@ -52,6 +65,18 @@ export default function ProductsPage() {
       console.error('Failed to fetch products:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch('/api/categories', { cache: 'no-store' })
+      if (res.ok) {
+        const data = await res.json()
+        setCategories(data)
+      }
+    } catch (error) {
+      console.error('Failed to fetch categories:', error)
     }
   }
 
@@ -126,11 +151,14 @@ export default function ProductsPage() {
               Lynos Sweets Admin
             </Link>
             <div className="flex items-center gap-4">
-              <Link href="/" className="text-gray-600 hover:text-gray-900">
+              <Link href="/" prefetch={false} className="text-gray-600 hover:text-gray-900">
                 View site
               </Link>
               <Link href="/admin" className="text-gray-600 hover:text-gray-900">
                 ← Back to Dashboard
+              </Link>
+              <Link href="/admin/categories" className="text-gray-600 hover:text-gray-900">
+                Categories
               </Link>
             </div>
           </div>
@@ -234,13 +262,30 @@ export default function ProductsPage() {
                   onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
                   className="w-full px-4 py-2 border rounded-lg bg-white text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
                 />
-                <input
-                  type="text"
-                  placeholder="Category"
-                  value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-lg bg-white text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                />
+                <div className="grid grid-cols-1 gap-2">
+                  <select
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="w-full px-4 py-2 border rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                  >
+                    <option value="">Select a category (optional)</option>
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.name}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="text"
+                    placeholder="Or type a custom category (e.g. Drinks)"
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="w-full px-4 py-2 border rounded-lg bg-white text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                  />
+                  <p className="text-xs text-gray-500">
+                    Tip: Instagram page links usually won&apos;t show as images. Use a direct image URL (ends in .jpg/.png) for best results.
+                  </p>
+                </div>
                 <label className="flex items-center">
                   <input
                     type="checkbox"
