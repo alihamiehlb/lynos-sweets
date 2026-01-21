@@ -70,15 +70,20 @@ export function MenuSection({
               key={name}
               onClick={() => setActive(name)}
               className={[
-                'category-chip hover-scale',
+                'category-chip hover-scale transition-all',
                 selected
-                  ? 'bg-rose-500 text-white ring-rose-500/15 shadow-md relative overflow-hidden'
-                  : 'bg-white/90 text-stone-700 ring-rose-100 hover:bg-rose-50'
+                  ? 'bg-rose-500 text-white ring-2 ring-rose-400 shadow-lg relative overflow-hidden glow-pulse'
+                  : 'bg-white/95 text-stone-700 ring-2 ring-rose-100 hover:bg-rose-50 hover:ring-rose-200 hover:shadow-md'
               ].join(' ')}
               style={{ animationDelay: `${idx * 50}ms` } as React.CSSProperties}
             >
-              {selected && <span className="absolute inset-0 shimmer opacity-30"></span>}
-              <span className="relative z-10">{name}</span>
+              {selected && (
+                <>
+                  <span className="absolute inset-0 shimmer-strong opacity-40"></span>
+                  <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 animate-shimmer"></span>
+                </>
+              )}
+              <span className="relative z-10 font-semibold">{name}</span>
             </button>
           )
         })}
@@ -88,11 +93,13 @@ export function MenuSection({
         {filtered.map((item, index) => (
           <article
             key={item.id}
-            className="menu-card group relative overflow-hidden rounded-3xl bg-white/95 p-5 shadow-lg shadow-rose-100/60 ring-1 ring-rose-100 transition-all hover:-translate-y-1.5 hover:shadow-xl hover:ring-rose-200 hover-scale"
+            className="menu-card group relative overflow-hidden rounded-3xl bg-white/95 p-5 shadow-xl shadow-rose-100/80 ring-2 ring-rose-100 transition-all hover:-translate-y-2 hover:shadow-2xl hover:ring-rose-300 hover-scale glow-pulse"
             style={{ animationDelay: `${index * 80}ms` } as React.CSSProperties}
           >
-            <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-rose-100/60 blur-2xl pulse-glow" />
-            <div className="absolute inset-0 bg-gradient-to-br from-rose-50/0 via-rose-50/0 to-rose-100/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-rose-200/70 blur-3xl pulse-glow-strong" />
+            <div className="absolute -left-5 -bottom-5 h-32 w-32 rounded-full bg-rose-100/50 blur-2xl pulse-glow" />
+            <div className="absolute inset-0 bg-gradient-to-br from-rose-50/0 via-rose-50/0 to-rose-100/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-rose-50/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             <div className="relative">
               <ProductImage
                 src={item.imageUrl}
@@ -105,8 +112,9 @@ export function MenuSection({
                   <h3 className="text-base font-semibold text-stone-900">{item.name}</h3>
                   <p className="mt-1 text-sm text-stone-600 line-clamp-2">{item.description || ''}</p>
                 </div>
-                <span className="rounded-2xl bg-rose-500 px-3 py-2 text-xs font-semibold text-white shadow-md hover-scale transition-transform relative overflow-hidden">
-                  <span className="absolute inset-0 shimmer opacity-20"></span>
+                <span className="rounded-2xl bg-rose-500 px-3 py-2 text-xs font-semibold text-white shadow-lg hover-scale transition-transform relative overflow-hidden glow-pulse group">
+                  <span className="absolute inset-0 shimmer-strong opacity-30"></span>
+                  <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/40 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
                   <span className="relative z-10">${item.price?.toFixed(2) || '0.00'}</span>
                 </span>
               </div>
@@ -114,7 +122,9 @@ export function MenuSection({
                 <p>{item.category || 'Sweets'}</p>
                 <p className="inline-flex items-center gap-1">
                   Freshly made
-                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-rose-500 sparkle" />
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-rose-500 sparkle-strong relative">
+                    <span className="absolute inset-0 rounded-full bg-rose-500/50 animate-ping"></span>
+                  </span>
                 </p>
               </div>
             </div>
