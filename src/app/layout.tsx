@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Lynos Sweets | Boutique Sweets & Treats",
   description: "Lynos Sweets – a modern sweets studio for handcrafted desserts, curated treats, and cozy indulgence.",
+  icons: {
+    icon: "/lynos.jpg",
+  },
 };
 
 export default function RootLayout({

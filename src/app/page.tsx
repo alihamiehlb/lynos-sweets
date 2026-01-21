@@ -1,4 +1,5 @@
 import React from "react";
+import { cookies } from "next/headers";
 import { MenuSection } from "./components/MenuSection";
 
 // Always render fresh data (no prerendered cache) so deletions/edits show immediately.
@@ -40,6 +41,8 @@ const specialties = [
 ];
 
 export default async function Home() {
+  const cookieStore = await cookies();
+  const hasAuth = !!cookieStore.get("auth-token");
   const products = await getProducts()
   const categories = await getCategories()
   const featuredProducts = products.filter((p: any) => p.isFeatured).slice(0, 3)
@@ -79,12 +82,21 @@ export default async function Home() {
               >
                 Learn about Lynos Sweets
               </a>
-              <a
-                href="/admin/login"
-                className="inline-flex items-center text-sm font-semibold text-rose-700 rounded-full border border-rose-200 px-4 py-2 bg-white/80 shadow-sm transition hover:bg-rose-50 hover:-translate-y-0.5"
-              >
-                Login
-              </a>
+              {!hasAuth ? (
+                <a
+                  href="/admin/login"
+                  className="inline-flex items-center text-sm font-semibold text-rose-700 rounded-full border border-rose-200 px-4 py-2 bg-white/80 shadow-sm transition hover:bg-rose-50 hover:-translate-y-0.5"
+                >
+                  Login
+                </a>
+              ) : (
+                <a
+                  href="/admin"
+                  className="inline-flex items-center text-sm font-semibold text-rose-700 rounded-full border border-rose-200 px-4 py-2 bg-white/80 shadow-sm transition hover:bg-rose-50 hover:-translate-y-0.5"
+                >
+                  Admin dashboard
+                </a>
+              )}
             </div>
             <div className="mt-4 flex flex-wrap gap-4 text-xs text-stone-500 sm:text-sm">
               <div className="flex items-center gap-2">
