@@ -155,7 +155,7 @@ export default async function Home() {
               <article
                 key={cookie.id || index}
                 className="group relative overflow-hidden rounded-3xl bg-white/80 p-5 shadow-lg shadow-rose-100/60 ring-1 ring-rose-100 transition hover:-translate-y-1.5 hover:shadow-xl hover:ring-rose-200"
-                style={{ animation: `floatUp 0.7s ease-out ${index * 0.08}s both` as React.CSSProperties }}
+                style={{ animation: `floatUp 0.7s ease-out ${index * 0.08}s both` } as React.CSSProperties}
               >
                 <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-rose-100/60 blur-2xl" />
                 <div className="relative flex items-center justify-between gap-4">

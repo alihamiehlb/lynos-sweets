@@ -4,9 +4,10 @@ import { getUserFromToken, hashPassword } from '@/lib/auth'
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  ctx: { params: { id: string } } | { params: Promise<{ id: string }> }
 ) {
   try {
+    const params = 'then' in ctx.params ? await (ctx.params as Promise<{ id: string }>) : (ctx.params as { id: string })
     const token = request.cookies.get('auth-token')?.value
     if (!token) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
@@ -30,7 +31,7 @@ export async function PUT(
     }
 
     const updatedUser = await prisma.user.update({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(params.id, 10) },
       data: updateData,
       select: {
         id: true,
@@ -60,9 +61,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  ctx: { params: { id: string } } | { params: Promise<{ id: string }> }
 ) {
   try {
+    const params = 'then' in ctx.params ? await (ctx.params as Promise<{ id: string }>) : (ctx.params as { id: string })
     const token = request.cookies.get('auth-token')?.value
     if (!token) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
@@ -74,7 +76,7 @@ export async function DELETE(
     }
 
     await prisma.user.delete({
-      where: { id: parseInt(params.id) }
+      where: { id: parseInt(params.id, 10) }
     })
 
     return NextResponse.json({ success: true })
