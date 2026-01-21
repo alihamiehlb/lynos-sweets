@@ -60,7 +60,7 @@ export default async function Home() {
         <div className="animated-bg-shape"></div>
       </div>
       
-      {/* Floating particles */}
+      {/* Floating particles - SLOWER */}
       <div className="fixed inset-0 pointer-events-none z-0">
         {[...Array(12)].map((_, i) => (
           <div
@@ -68,8 +68,8 @@ export default async function Home() {
             className="floating-particle"
             style={{
               left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 15}s`,
-              animationDuration: `${12 + Math.random() * 8}s`,
+              animationDelay: `${Math.random() * 25}s`,
+              animationDuration: `${20 + Math.random() * 10}s`,
             }}
           />
         ))}
