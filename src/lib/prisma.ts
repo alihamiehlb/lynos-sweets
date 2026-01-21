@@ -4,9 +4,10 @@ import { Pool } from 'pg'
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
+  pgPool: Pool | undefined
 }
 
-function createPrismaClient() {
+function getPgPool() {
   const connectionString = process.env.DATABASE_URL
   if (!connectionString) {
     throw new Error(
@@ -14,7 +15,20 @@ function createPrismaClient() {
     )
   }
 
-  const pool = new Pool({ connectionString })
+  // Supabase Session Pooler has a small pool_size; keep client count to 1.
+  if (!globalForPrisma.pgPool) {
+    globalForPrisma.pgPool = new Pool({
+      connectionString,
+      max: 1, // keep a single client per lambda/process
+      idleTimeoutMillis: 10_000,
+    })
+  }
+
+  return globalForPrisma.pgPool
+}
+
+function createPrismaClient() {
+  const pool = getPgPool()
   const adapter = new PrismaPg(pool)
 
   return new PrismaClient({ adapter })
