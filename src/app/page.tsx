@@ -49,13 +49,21 @@ export default async function Home() {
   const displayProducts = featuredProducts.length > 0 ? featuredProducts : products.slice(0, 3)
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#FFFBF0] via-[#FEF9E7] to-white text-stone-900">
-      <main className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 py-10 md:px-8 lg:px-12">
+    <div className="min-h-screen bg-gradient-to-b from-[#FFFBF0] via-[#FEF9E7] to-white text-stone-900 relative overflow-hidden">
+      {/* Animated pink background shapes */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="animated-bg-shape"></div>
+        <div className="animated-bg-shape"></div>
+        <div className="animated-bg-shape"></div>
+        <div className="animated-bg-shape"></div>
+      </div>
+      
+      <main className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-4 py-10 md:px-8 lg:px-12">
         {/* Hero */}
         <section className="flex flex-1 flex-col items-center gap-10 md:flex-row md:items-start">
           <div className="flex-1 space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-1 text-sm font-medium text-rose-600 shadow-sm ring-1 ring-rose-200 backdrop-blur">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-rose-400" />
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-1 text-sm font-medium text-rose-600 shadow-sm ring-1 ring-rose-200 backdrop-blur hover-scale slide-in-up">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-rose-400 sparkle" />
               Fresh out of the oven at Lynos Sweets
             </div>
             <h1 className="text-balance text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
@@ -71,10 +79,11 @@ export default async function Home() {
             <div className="flex flex-wrap items-center gap-4">
               <a
                 href="#menu"
-                className="group inline-flex items-center gap-2 rounded-full bg-rose-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-rose-400/40 transition hover:-translate-y-0.5 hover:bg-rose-600"
+                className="group relative inline-flex items-center gap-2 rounded-full bg-rose-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-rose-400/40 transition-all hover:-translate-y-0.5 hover:bg-rose-600 hover:shadow-xl hover:shadow-rose-500/50 overflow-hidden"
               >
-                View sweets menu
-                <span className="transition-transform group-hover:translate-x-1">→</span>
+                <span className="absolute inset-0 shimmer"></span>
+                <span className="relative z-10">View sweets menu</span>
+                <span className="relative z-10 transition-transform group-hover:translate-x-1">→</span>
               </a>
               <a
                 href="#about"
@@ -85,28 +94,28 @@ export default async function Home() {
               {!hasAuth ? (
                 <a
                   href="/admin/login"
-                  className="inline-flex items-center text-sm font-semibold text-rose-700 rounded-full border border-rose-200 px-4 py-2 bg-white/80 shadow-sm transition hover:bg-rose-50 hover:-translate-y-0.5"
+                  className="inline-flex items-center text-sm font-semibold text-rose-700 rounded-full border border-rose-200 px-4 py-2 bg-white/90 shadow-sm transition-all hover:bg-rose-50 hover:-translate-y-0.5 hover:shadow-md hover:border-rose-300 hover-scale"
                 >
                   Login
                 </a>
               ) : (
                 <a
                   href="/admin"
-                  className="inline-flex items-center text-sm font-semibold text-rose-700 rounded-full border border-rose-200 px-4 py-2 bg-white/80 shadow-sm transition hover:bg-rose-50 hover:-translate-y-0.5"
+                  className="inline-flex items-center text-sm font-semibold text-rose-700 rounded-full border border-rose-200 px-4 py-2 bg-white/90 shadow-sm transition-all hover:bg-rose-50 hover:-translate-y-0.5 hover:shadow-md hover:border-rose-300 hover-scale"
                 >
                   Admin dashboard
                 </a>
               )}
             </div>
             <div className="mt-4 flex flex-wrap gap-4 text-xs text-stone-500 sm:text-sm">
-              <div className="flex items-center gap-2">
-                <span className="h-6 w-6 rounded-full bg-[#FEF9E7] p-1.5">
+              <div className="flex items-center gap-2 hover-scale transition-transform">
+                <span className="h-6 w-6 rounded-full bg-[#FEF9E7] p-1.5 pulse-glow">
                   <span className="block h-full w-full animate-bounce rounded-full bg-rose-300" />
                 </span>
                 Crafted fresh in small batches
               </div>
-              <div className="flex items-center gap-2">
-                <span className="h-6 w-6 rounded-full bg-rose-100 p-1.5">
+              <div className="flex items-center gap-2 hover-scale transition-transform">
+                <span className="h-6 w-6 rounded-full bg-rose-100 p-1.5 pulse-glow">
                   <span className="block h-full w-full animate-[spin_4s_linear_infinite] rounded-full border-2 border-rose-400 border-t-transparent" />
                 </span>
                 Curated flavours all year round
@@ -115,8 +124,8 @@ export default async function Home() {
           </div>
 
           <div className="mt-10 flex flex-1 justify-center md:mt-0">
-            <div className="relative h-80 w-full max-w-sm">
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-rose-200 via-[#FEF9E7] to-white shadow-2xl shadow-rose-200/60" />
+            <div className="relative h-80 w-full max-w-sm hover-scale">
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-rose-200 via-[#FEF9E7] to-white shadow-2xl shadow-rose-200/60 animated-gradient pulse-glow" />
               <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-3xl p-5">
                 <div className="flex items-center justify-between">
                   <div>
@@ -133,7 +142,7 @@ export default async function Home() {
                   {displayProducts.map((cookie: any, idx: number) => (
                     <div
                       key={cookie.id || idx}
-                      className="group relative overflow-hidden rounded-2xl bg-white/80 p-2 text-xs shadow-sm ring-1 ring-rose-100 transition hover:-translate-y-1 hover:shadow-md hover:ring-rose-200"
+                      className="group relative overflow-hidden rounded-2xl bg-white/90 p-2 text-xs shadow-sm ring-1 ring-rose-100 transition-all hover:-translate-y-1 hover:shadow-md hover:ring-rose-200 hover-scale"
                     >
                       <div className="relative mb-2 flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-rose-100 via-[#FEF9E7] to-white">
                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(244,114,182,0.25),transparent_60%),radial-gradient(circle_at_80%_0%,rgba(251,191,36,0.3),transparent_55%)]" />
@@ -182,15 +191,15 @@ export default async function Home() {
               {specialties.map((item) => (
                 <div
                   key={item}
-                  className="flex items-start gap-3 rounded-2xl bg-white/90 p-3 text-sm text-stone-700 shadow-sm ring-1 ring-rose-100"
+                  className="flex items-start gap-3 rounded-2xl bg-white/95 p-3 text-sm text-stone-700 shadow-sm ring-1 ring-rose-100 transition-all hover:shadow-md hover:ring-rose-200 hover-scale"
                 >
-                  <span className="mt-1 h-2 w-2 rounded-full bg-rose-400" />
+                  <span className="mt-1 h-2 w-2 rounded-full bg-rose-400 sparkle" />
                   <p>{item}</p>
                 </div>
               ))}
             </div>
           </div>
-          <div className="space-y-4 rounded-3xl bg-gradient-to-br from-rose-600 to-rose-700 px-5 py-6 text-white shadow-xl shadow-rose-600/50">
+          <div className="space-y-4 rounded-3xl bg-gradient-to-br from-rose-600 to-rose-700 px-5 py-6 text-white shadow-xl shadow-rose-600/50 hover-scale transition-transform">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-rose-100">
               Behind the sweets
             </p>

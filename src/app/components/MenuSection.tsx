@@ -63,20 +63,22 @@ export function MenuSection({
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {categoryChips.map((name) => {
+        {categoryChips.map((name, idx) => {
           const selected = name === active
           return (
             <button
               key={name}
               onClick={() => setActive(name)}
               className={[
-                'category-chip',
+                'category-chip hover-scale',
                 selected
-                  ? 'bg-rose-500 text-white ring-rose-500/15 shadow-md'
+                  ? 'bg-rose-500 text-white ring-rose-500/15 shadow-md relative overflow-hidden'
                   : 'bg-white/90 text-stone-700 ring-rose-100 hover:bg-rose-50'
               ].join(' ')}
+              style={{ animationDelay: `${idx * 50}ms` } as React.CSSProperties}
             >
-              {name}
+              {selected && <span className="absolute inset-0 shimmer opacity-30"></span>}
+              <span className="relative z-10">{name}</span>
             </button>
           )
         })}
@@ -86,10 +88,11 @@ export function MenuSection({
         {filtered.map((item, index) => (
           <article
             key={item.id}
-            className="menu-card group relative overflow-hidden rounded-3xl bg-white/95 p-5 shadow-lg shadow-rose-100/60 ring-1 ring-rose-100 transition hover:-translate-y-1.5 hover:shadow-xl hover:ring-rose-200"
+            className="menu-card group relative overflow-hidden rounded-3xl bg-white/95 p-5 shadow-lg shadow-rose-100/60 ring-1 ring-rose-100 transition-all hover:-translate-y-1.5 hover:shadow-xl hover:ring-rose-200 hover-scale"
             style={{ animationDelay: `${index * 80}ms` } as React.CSSProperties}
           >
-            <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-rose-100/60 blur-2xl" />
+            <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-rose-100/60 blur-2xl pulse-glow" />
+            <div className="absolute inset-0 bg-gradient-to-br from-rose-50/0 via-rose-50/0 to-rose-100/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="relative">
               <ProductImage
                 src={item.imageUrl}
@@ -102,15 +105,16 @@ export function MenuSection({
                   <h3 className="text-base font-semibold text-stone-900">{item.name}</h3>
                   <p className="mt-1 text-sm text-stone-600 line-clamp-2">{item.description || ''}</p>
                 </div>
-                <span className="rounded-2xl bg-rose-500 px-3 py-2 text-xs font-semibold text-white shadow-md">
-                  ${item.price?.toFixed(2) || '0.00'}
+                <span className="rounded-2xl bg-rose-500 px-3 py-2 text-xs font-semibold text-white shadow-md hover-scale transition-transform relative overflow-hidden">
+                  <span className="absolute inset-0 shimmer opacity-20"></span>
+                  <span className="relative z-10">${item.price?.toFixed(2) || '0.00'}</span>
                 </span>
               </div>
               <div className="mt-3 flex items-center justify-between text-xs text-stone-500">
                 <p>{item.category || 'Sweets'}</p>
                 <p className="inline-flex items-center gap-1">
                   Freshly made
-                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-rose-500" />
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-rose-500 sparkle" />
                 </p>
               </div>
             </div>

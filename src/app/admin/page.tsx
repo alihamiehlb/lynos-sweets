@@ -76,7 +76,12 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFFBF0] via-rose-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-[#FFFBF0] via-rose-50 to-white relative overflow-hidden">
+      {/* Subtle animated background */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-20 right-10 w-64 h-64 rounded-full bg-rose-100/20 blur-3xl pulse-glow"></div>
+        <div className="absolute bottom-20 left-10 w-48 h-48 rounded-full bg-rose-200/15 blur-3xl pulse-glow" style={{ animationDelay: '2s' }}></div>
+      </div>
       <nav className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -104,9 +109,9 @@ export default function AdminDashboard() {
         </div>
       </nav>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Link href="/admin/products" className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
+          <Link href="/admin/products" className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all hover-scale hover:ring-2 hover:ring-rose-100">
             <div className="text-sm text-gray-600 mb-1">Products</div>
             <div className="text-3xl font-bold text-rose-600">{stats?.totalProducts || 0}</div>
           </Link>
@@ -169,17 +174,17 @@ export default function AdminDashboard() {
             <h3 className="text-lg font-semibold mb-1">Manage Products</h3>
             <p className="text-sm text-gray-600">Add, edit, or delete Lynos Sweets products</p>
           </Link>
-          <Link href="/admin/categories" className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all transform hover:scale-105">
+          <Link href="/admin/categories" className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all hover-scale hover:ring-2 hover:ring-rose-100">
             <div className="text-2xl mb-2">🏷️</div>
             <h3 className="text-lg font-semibold mb-1">Manage Categories</h3>
             <p className="text-sm text-gray-600">Create categories like Drinks, Boxes, Specials</p>
           </Link>
-          <Link href="/admin/users" className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all transform hover:scale-105">
+          <Link href="/admin/users" className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all hover-scale hover:ring-2 hover:ring-rose-100">
             <div className="text-2xl mb-2">👥</div>
             <h3 className="text-lg font-semibold mb-1">Manage Users</h3>
             <p className="text-sm text-gray-600">View and manage users and admins</p>
           </Link>
-          <Link href="/admin/sales" className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all transform hover:scale-105">
+          <Link href="/admin/sales" className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all hover-scale hover:ring-2 hover:ring-rose-100">
             <div className="text-2xl mb-2">📊</div>
             <h3 className="text-lg font-semibold mb-1">View Sales</h3>
             <p className="text-sm text-gray-600">Track sales history and analytics</p>
