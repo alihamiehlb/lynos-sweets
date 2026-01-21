@@ -1,41 +1,79 @@
-<<<<<<< HEAD
-# lynos-sweets
-a website for a bakery ,to place there products in and showcase them neatly  , it has a great humble admin panel which serves its purpose, and  it has a data base sql  postgres
-=======
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Lynos Sweets
 
-## Getting Started
+Modern “restaurant menu” style site for **Lynos Sweets**, backed by **Supabase Postgres**, with a secure **admin panel** to manage products (cards), users/admins, and sales stats.
 
-First, run the development server:
+### Features
+
+- **Public site**: shows products as cards (image, name, description, price, category).
+- **Admin login**: `/admin/login` (admins only).
+- **Admin dashboard**: `/admin` (stats overview).
+- **Product management**: add / edit / delete products at `/admin/products`.
+- **User management**: add / edit / delete users + admins at `/admin/users`.
+- **Sales tracking**: record sales and view analytics at `/admin/sales`.
+
+### Tech
+
+- Next.js 16 (App Router)
+- Prisma 7 + Postgres adapter (`@prisma/adapter-pg`) + `pg`
+- Supabase Postgres (use **Session pooler** URL)
+- JWT auth (cookie-based)
+
+---
+
+## Setup (Local)
+
+### 1) Install
+
+```bash
+npm install
+```
+
+### 2) Environment variables
+
+Create `.env` in the project root with:
+
+```env
+DATABASE_URL="YOUR_SUPABASE_SESSION_POOLER_URL"
+JWT_SECRET="your-long-random-secret"
+```
+
+### 3) Migrate + seed
+
+```bash
+npx prisma migrate dev --name init
+npm run db:seed
+```
+
+### 4) Run
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
+- Public site: `http://localhost:3000`
+- Admin login: `http://localhost:3000/admin/login`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Default Admin Credentials
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Seed creates:
+- **Email**: `admin@lynossweets.com`
+- **Password**: `admin123`
 
-## Learn More
+Change password after first login.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment (Vercel + Supabase)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Push to GitHub.
+2. Create a Vercel project from the repo.
+3. In Vercel **Environment Variables**, set:
+   - `DATABASE_URL` = your Supabase **Session pooler** URL
+   - `JWT_SECRET` = a long random string
+4. Deploy.
+5. Seed production once (from your machine):
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
->>>>>>> a733236 (Initial commit from Create Next App)
+```bash
+DATABASE_URL="YOUR_SUPABASE_SESSION_POOLER_URL" npm run db:seed
+```
