@@ -3,6 +3,13 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* Lynos Sweets brand colors - soft pink/rose and cream */
+  --cream-50: #FFFBF0;
+  --cream-100: #FEF9E7;
+  --cream-200: #FDF3D0;
+  --rose-soft: #F8B5C4;
+  --rose-medium: #F48FB1;
+  --rose-deep: #E91E63;
 }
 
 @theme inline {

@@ -72,8 +72,8 @@ export function MenuSection({
               className={[
                 'category-chip',
                 selected
-                  ? 'bg-stone-900 text-amber-200 ring-stone-900/15'
-                  : 'bg-white/80 text-stone-700 ring-rose-100 hover:bg-rose-50'
+                  ? 'bg-rose-500 text-white ring-rose-500/15 shadow-md'
+                  : 'bg-white/90 text-stone-700 ring-rose-100 hover:bg-rose-50'
               ].join(' ')}
             >
               {name}
@@ -86,7 +86,7 @@ export function MenuSection({
         {filtered.map((item, index) => (
           <article
             key={item.id}
-            className="menu-card group relative overflow-hidden rounded-3xl bg-white/80 p-5 shadow-lg shadow-rose-100/60 ring-1 ring-rose-100 transition hover:-translate-y-1.5 hover:shadow-xl hover:ring-rose-200"
+            className="menu-card group relative overflow-hidden rounded-3xl bg-white/95 p-5 shadow-lg shadow-rose-100/60 ring-1 ring-rose-100 transition hover:-translate-y-1.5 hover:shadow-xl hover:ring-rose-200"
             style={{ animationDelay: `${index * 80}ms` } as React.CSSProperties}
           >
             <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-rose-100/60 blur-2xl" />
@@ -102,7 +102,7 @@ export function MenuSection({
                   <h3 className="text-base font-semibold text-stone-900">{item.name}</h3>
                   <p className="mt-1 text-sm text-stone-600 line-clamp-2">{item.description || ''}</p>
                 </div>
-                <span className="rounded-2xl bg-stone-900 px-3 py-2 text-xs font-semibold text-amber-200 shadow-md">
+                <span className="rounded-2xl bg-rose-500 px-3 py-2 text-xs font-semibold text-white shadow-md">
                   ${item.price?.toFixed(2) || '0.00'}
                 </span>
               </div>

@@ -76,12 +76,12 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-[#FFFBF0] via-rose-50 to-white">
       <nav className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-6">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-rose-500 to-rose-600 bg-clip-text text-transparent">
                 Lynos Sweets Admin
               </h1>
               <Link
@@ -108,7 +108,7 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Link href="/admin/products" className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
             <div className="text-sm text-gray-600 mb-1">Products</div>
-            <div className="text-3xl font-bold text-pink-600">{stats?.totalProducts || 0}</div>
+            <div className="text-3xl font-bold text-rose-600">{stats?.totalProducts || 0}</div>
           </Link>
           <Link href="/admin/categories" className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
             <div className="text-sm text-gray-600 mb-1">Categories</div>
@@ -153,7 +153,7 @@ export default function AdminDashboard() {
               {stats?.topProducts.slice(0, 5).map((product) => (
                 <div key={product.id} className="flex justify-between items-center py-2 border-b last:border-0">
                   <span className="text-gray-700">{product.name}</span>
-                  <span className="text-pink-600 font-semibold">{product.totalSold} sold</span>
+                  <span className="text-rose-600 font-semibold">{product.totalSold} sold</span>
                 </div>
               ))}
               {(!stats?.topProducts || stats.topProducts.length === 0) && (
