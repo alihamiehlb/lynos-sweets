@@ -25,6 +25,11 @@ export default function CategoriesPage() {
     fetchCategories()
   }, [])
 
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' })
+    router.push('/admin/login')
+  }
+
   const checkAuth = async () => {
     try {
       const res = await fetch('/api/auth/me', { cache: 'no-store' })
@@ -104,6 +109,12 @@ export default function CategoriesPage() {
               <Link href="/admin" className="text-gray-600 hover:text-gray-900">
                 ← Back to Dashboard
               </Link>
+              <button
+                onClick={handleLogout}
+                className="text-gray-600 hover:text-gray-900"
+              >
+                Logout
+              </button>
             </div>
           </div>
         </div>

@@ -54,6 +54,11 @@ export default function ProductsPage() {
     }
   }
 
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' })
+    router.push('/admin/login')
+  }
+
   const fetchProducts = async () => {
     try {
       const res = await fetch('/api/products')
@@ -160,6 +165,12 @@ export default function ProductsPage() {
               <Link href="/admin/categories" className="text-gray-600 hover:text-gray-900">
                 Categories
               </Link>
+              <button
+                onClick={handleLogout}
+                className="text-gray-600 hover:text-gray-900"
+              >
+                Logout
+              </button>
             </div>
           </div>
         </div>

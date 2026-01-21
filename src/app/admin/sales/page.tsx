@@ -34,6 +34,11 @@ export default function SalesPage() {
     fetchProducts()
   }, [])
 
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' })
+    router.push('/admin/login')
+  }
+
   const checkAuth = async () => {
     try {
       const res = await fetch('/api/auth/me', { cache: 'no-store' })
@@ -118,6 +123,12 @@ export default function SalesPage() {
               <Link href="/admin/categories" className="text-gray-600 hover:text-gray-900">
                 Categories
               </Link>
+              <button
+                onClick={handleLogout}
+                className="text-gray-600 hover:text-gray-900"
+              >
+                Logout
+              </button>
             </div>
           </div>
         </div>
