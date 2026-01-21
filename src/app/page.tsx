@@ -1,6 +1,10 @@
 import React from "react";
 import Image from "next/image";
 
+// Always render fresh data (no prerendered cache) so deletions/edits show immediately.
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+
 async function getProducts() {
   try {
     const { prisma } = await import('@/lib/prisma')
